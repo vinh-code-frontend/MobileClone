@@ -1,0 +1,29 @@
+# === REACT.JS + TS ===
+dashboard/node_modules/
+dashboard/build/
+dashboard/.env*
+dashboard/package-lock.json
+
+# === ASP.NET ===
+server/bin/
+server/obj/
+server/.vs/
+server/.vscode/
+server/*.user
+server/*.suo
+server/*.cache
+server/*.dbmdl
+server/*.log
+server/.env*
+
+# === COMMON FOR ALL ===
+*.log
+*.tmp
+*.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+.env
+.env.*
+npm-debug.log*
