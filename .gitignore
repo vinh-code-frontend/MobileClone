@@ -1,20 +1,20 @@
 # === REACT.JS + TS ===
-dashboard/node_modules/
-dashboard/build/
-dashboard/.env*
-dashboard/package-lock.json
+**/node_modules/
+**/build/
+**/.env*
+**/package-lock.json
 
 # === ASP.NET ===
-server/bin/
-server/obj/
-server/.vs/
-server/.vscode/
-server/*.user
-server/*.suo
-server/*.cache
-server/*.dbmdl
-server/*.log
-server/.env*
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/*.user
+**/*.suo
+**/*.cache
+**/*.dbmdl
+**/*.log
+**/.env*
 
 # === COMMON FOR ALL ===
 *.log
