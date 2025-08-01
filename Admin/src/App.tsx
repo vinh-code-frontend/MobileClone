@@ -1,18 +1,27 @@
-import { RouterProvider } from 'react-router-dom';
-import router from './routes';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './config/theme';
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
 
-import '@fontsource/inter';
-import 'react-perfect-scrollbar/dist/css/styles.css';
-import './assets/style.css';
+import { Box, useTheme, alpha } from "@mui/material";
 
-function App() {
+import "@fontsource/inter";
+import "./assets/style.css";
+import "simplebar-react/dist/simplebar.min.css";
+
+const App = () => {
+  const theme = useTheme();
+
+  console.log(theme);
   return (
-    <ThemeProvider theme={theme}>
+    <Box
+      sx={{
+        backgroundColor: alpha(theme.palette.primary.main, 0.1),
+        height: "100dvh",
+        width: "100%",
+      }}
+    >
       <RouterProvider router={router} />;
-    </ThemeProvider>
+    </Box>
   );
-}
+};
 
 export default App;
