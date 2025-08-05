@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
+using Server.Interfaces;
+using Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,11 +23,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// services
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging().LogTo(Console.WriteLine, LogLevel.Information);
 });
 
 var app = builder.Build();
@@ -36,7 +40,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+//HTTP -> HTTPS
+app.UseHttpsRedirection();
 app.UseCors("AllowFrontendClients");
 app.UseAuthorization();
 

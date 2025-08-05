@@ -1,4 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.Data;
+using Server.DTOs;
+using Server.Interfaces;
+using Server.Models;
+using Server.Utilities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,13 +13,34 @@ namespace Server.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly AppDbContext _context;
+        private readonly IAdminService _adminService;
+        public AdminController(AppDbContext context, IAdminService adminService)
+        {
+            _context = context;
+            _adminService = adminService;
+        }
+        [HttpPost("login")]
+        public IActionResult Login(AdminLoginRequestDTO adminLoginRequestDTO)
+        {
+            return Ok(adminLoginRequestDTO);
+        }
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(AdminCreateRequestDTO dto)
+        {
+            ServiceResult<AdminUser> result = await _adminService.CreateAdminAsync(dto);
+
+            if (!result.IsSuccess)
+                return StatusCode((int)result.StatusCode, new { result.Message });
+
+            return StatusCode((int)result.StatusCode, result.Data);
+        }
         // GET: api/<AdminController>
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
-
         // GET api/<AdminController>/5
         [HttpGet("{id}")]
         public string Get(int id)

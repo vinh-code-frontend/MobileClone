@@ -11,10 +11,11 @@ namespace Server.Models
         public string Status { get; set; } = AdminStatus.Pending;
         public string? LoginProvider { get; set; } = AdminLoginProvider.Local;
         public string? ProviderUserId { get; set; }
-        public bool IsConfirmedByGlobalAdmin { get; set; }
         public string Role { get; set; } = AdminRoles.Admin;
+        public bool IsAcceptedByGlobalAdmin { get; set; }
+        public DateTime? AcceptedAt { get; set; }
+        public Guid? AcceptedBy { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? ConfirmedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 }
