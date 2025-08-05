@@ -1,6 +1,8 @@
 import { Outlet, Link } from 'react-router-dom'
 import { Box, Button } from '@mui/material'
-import SimpleBar from 'simplebar-react'
+
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
+import 'overlayscrollbars/overlayscrollbars.css'
 
 const MainLayout = () => {
   return (
@@ -19,9 +21,12 @@ const MainLayout = () => {
         <Button variant="contained" color="primary">
           Hello MUI
         </Button>
-        <SimpleBar style={{ maxHeight: '300px' }}>
+        <OverlayScrollbarsComponent
+          style={{ maxHeight: '300px' }}
+          options={{ scrollbars: { autoHide: 'leave' } }}
+        >
           <div style={{ height: '120vh', background: '#ccc' }}>vc</div>
-        </SimpleBar>
+        </OverlayScrollbarsComponent>
         <Outlet />
       </Box>
     </Box>

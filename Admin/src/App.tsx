@@ -3,7 +3,6 @@ import { Box, useTheme, alpha } from '@mui/material'
 
 import '@fontsource/inter'
 import './assets/style.css'
-import 'simplebar-react/dist/simplebar.min.css'
 
 const App = () => {
   const theme = useTheme()

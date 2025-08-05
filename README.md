@@ -13,27 +13,33 @@
 ## 🚀 Tech Stack
 
 ### 🖥️ Admin Dashboard
+
 - **Framework**: [React.js](https://react.dev/)
 - **Language**: TypeScript
 - **Features**: Responsive UI, admin-only access, real-time insights, product management, order tracking.
 
 ### 📲 Client UI
+
 - **Framework**: _(To be determined)_
 - Placeholder for future implementation of customer-facing UI.
 
 ### 🔧 Server - Web API
+
 - **Technology**: ASP.NET Core 8 (Minimal APIs & MVC)
-- **Architecture**: RESTful API, Clean Architecture patterns
+- **Architecture**: RESTful API, Monolythic patterns
 - **Authentication**: JWT (planned)
 - **Validation**: FluentValidation (optional)
 
 ### 🗄️ Database
+
 - **Engine**: Microsoft SQL Server
 - **Design**: Relational schema, entity relationships, indexes for performance.
 
 ---
 
 ## ⚙️ Getting Started
+
+- **Server**: ASP.NET will run via HTTPS, need to run dotnet dev-certs https --trust
 
 ### 🔨 Prerequisites
 
