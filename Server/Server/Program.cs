@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Server.Data;
 using Server.Interfaces;
 using Server.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+var jwtSection = builder.Configuration.GetSection("Jwt");
 
 builder.Services.AddCors(options =>
 {
@@ -24,6 +27,24 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // services
+builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuers = jwtSection.GetSection("Issuers").Get<string[]>(),
+
+        ValidateAudience = true,
+        ValidAudiences = jwtSection.GetSection("Audiences").Get<string[]>(),
+
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"]!))
+    };
+});
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 // Add services to the container.

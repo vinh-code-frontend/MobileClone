@@ -7,5 +7,6 @@ namespace Server.Interfaces
     public interface IAdminService
     {
         Task<ServiceResult<AdminUser>> CreateAdminAsync(AdminCreateRequestDTO dto);
+        Task<ServiceResult<AdminLoginResponseDTO>> LoginAsync(AdminLoginRequestDTO dto);
     }
 }

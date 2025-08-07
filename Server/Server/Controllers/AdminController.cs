@@ -15,15 +15,22 @@ namespace Server.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IAdminService _adminService;
+
         public AdminController(AppDbContext context, IAdminService adminService)
         {
             _context = context;
             _adminService = adminService;
         }
         [HttpPost("login")]
-        public IActionResult Login(AdminLoginRequestDTO adminLoginRequestDTO)
+        public async Task<IActionResult> Login(AdminLoginRequestDTO adminLoginRequestDTO)
         {
-            return Ok(adminLoginRequestDTO);
+            ServiceResult<AdminLoginResponseDTO> result = await _adminService.LoginAsync(adminLoginRequestDTO);
+            if (!result.IsSuccess)
+            {
+                return StatusCode((int)result.StatusCode, new { result.Message });
+            }
+
+            return StatusCode((int)result.StatusCode, result.Data);
         }
         [HttpPost("create")]
         public async Task<IActionResult> Create(AdminCreateRequestDTO dto)
@@ -31,7 +38,9 @@ namespace Server.Controllers
             ServiceResult<AdminUser> result = await _adminService.CreateAdminAsync(dto);
 
             if (!result.IsSuccess)
+            {
                 return StatusCode((int)result.StatusCode, new { result.Message });
+            }
 
             return StatusCode((int)result.StatusCode, result.Data);
         }

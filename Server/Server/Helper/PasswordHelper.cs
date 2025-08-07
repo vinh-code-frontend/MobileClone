@@ -1,19 +1,26 @@
 using Microsoft.AspNetCore.Identity;
-using Server.Models;
 
 namespace Server.Helper
 {
     public class PasswordHelper
     {
-        public static string HashAdminPassword(string plainPassword, AdminUser adminUser)
+        public static string HashAdminPassword(string plainPassword, string username)
         {
-            var hasher = new PasswordHasher<AdminUser>();
-            var user = new AdminUser()
+            var hasher = new PasswordHasher<string>();
+
+            return hasher.HashPassword(username, plainPassword);
+        }
+        public static bool VerifyHashedPassword(string inputPassword, string storedHashedPassword, string username)
+        {
+            var hasher = new PasswordHasher<string>();
+
+            var result = hasher.VerifyHashedPassword(username, storedHashedPassword, inputPassword);
+
+            if (result == PasswordVerificationResult.Success)
             {
-                Username = adminUser.Username,
-                Id = adminUser.Id,
-            };
-            return hasher.HashPassword(user, plainPassword);
+                return true;
+            }
+            return false;
         }
     }
 }

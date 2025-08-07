@@ -13,9 +13,13 @@ namespace Server.Services
     public class AdminService : IAdminService
     {
         private readonly AppDbContext _context;
-        public AdminService(AppDbContext context)
+        private readonly IJwtService _jwtService;
+        private readonly IConfiguration _configuration;
+        public AdminService(AppDbContext context, IJwtService jwtService, IConfiguration configuration)
         {
             _context = context;
+            _jwtService = jwtService;
+            _configuration = configuration;
         }
         public async Task<ServiceResult<AdminUser>> CreateAdminAsync(AdminCreateRequestDTO dto)
         {
@@ -44,13 +48,52 @@ namespace Server.Services
                 AcceptedAt = dto.AcceptedBy != null ? DateTime.UtcNow : null,
                 CreatedAt = DateTime.UtcNow
             };
-            string hashedPassword = PasswordHelper.HashAdminPassword(newAdmin.Username, newAdmin);
+            string hashedPassword = PasswordHelper.HashAdminPassword(normalizedUsername, normalizedUsername);
 
             newAdmin.HashedPassword = hashedPassword;
             await _context.AdminUsers.AddAsync(newAdmin);
             await _context.SaveChangesAsync();
 
             return ServiceResult<AdminUser>.Success(newAdmin, "Admin created successfully");
+        }
+
+        public async Task<ServiceResult<AdminLoginResponseDTO>> LoginAsync(AdminLoginRequestDTO dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.Password) || string.IsNullOrWhiteSpace(dto.Username))
+            {
+                return ServiceResult<AdminLoginResponseDTO>.Fail("Username and Password are required", HttpStatusCode.BadRequest);
+            }
+
+            string normalizedUsername = dto.Username.ToLower().Trim();
+
+            var admin = await _context.AdminUsers.FirstOrDefaultAsync(temp => temp.Username == dto.Username);
+            if (admin == null)
+            {
+                return ServiceResult<AdminLoginResponseDTO>.Fail("Incorrect Username or Password", HttpStatusCode.BadRequest);
+            }
+
+            if (!PasswordHelper.VerifyHashedPassword(dto.Password, admin.HashedPassword!, normalizedUsername))
+            {
+                return ServiceResult<AdminLoginResponseDTO>.Fail("Incorrect Username or Password", HttpStatusCode.BadRequest);
+            }
+
+            if (admin.Status != AdminStatus.Inactive && admin.Status != AdminStatus.Active)
+            {
+                return ServiceResult<AdminLoginResponseDTO>.Fail("Your account is out of permission", HttpStatusCode.Forbidden);
+            }
+
+            var response = new AdminLoginResponseDTO
+            {
+                Id = admin.Id,
+                Username = admin.Username,
+                Name = admin.Name,
+                Status = admin.Status,
+                LoginProvider = admin.LoginProvider,
+                AccessToken = _jwtService.GenerateAdminUserToken(admin),
+                ExpiresInHours = double.Parse(_configuration["Jwt:ExpiresInHours"]!)
+            };
+
+            return ServiceResult<AdminLoginResponseDTO>.Success(response, "Login successfully");
         }
     }
 }
