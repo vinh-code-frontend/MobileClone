@@ -8,7 +8,7 @@ import { LoginResponse } from '../core/types'
 import { useNotification } from '@/shared/hooks/useNotification'
 import { getApiErrorMessage } from '@/shared/utils'
 import { useDispatch } from 'react-redux'
-import { authActions } from '../core/authSlide'
+import { authActions } from '../core/authSlice'
 
 const schema = yup.object({
   username: yup.string().required('Username is required'),
