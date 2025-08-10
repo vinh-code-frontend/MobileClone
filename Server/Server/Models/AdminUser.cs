@@ -12,6 +12,8 @@ namespace Server.Models
         public string? LoginProvider { get; set; } = AdminLoginProvider.Local;
         public string? ProviderUserId { get; set; }
         public string Role { get; set; } = AdminRoles.Admin;
+        public byte[]? PhotoUrl { get; set; }
+        public bool IsPasswordUpdated { get; set; } = false;
         public bool IsAcceptedByGlobalAdmin { get; set; }
         public DateTime? AcceptedAt { get; set; }
         public Guid? AcceptedBy { get; set; }
