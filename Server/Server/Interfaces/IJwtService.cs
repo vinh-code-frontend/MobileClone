@@ -4,6 +4,6 @@ namespace Server.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateAdminUserToken(AdminUser user);
+        string GenerateAdminUserToken(AdminUser user, string origin);
     }
 }

@@ -15,7 +15,7 @@ namespace Server.Services
             _configuration = configuration;
         }
 
-        public string GenerateAdminUserToken(AdminUser user)
+        public string GenerateAdminUserToken(AdminUser user, string origin)
         {
             var claims = new[]
             {
@@ -28,9 +28,12 @@ namespace Server.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             double expiresInHours = double.Parse(_configuration["Jwt:ExpiresInHours"]!);
 
+            var audiences = _configuration.GetSection("Jwt:Audiences").Get<string[]>();
+            var audience = audiences != null && audiences.Length > 0 ? audiences[0] : throw new InvalidOperationException("No audiences configured");
+
             JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: origin,
+                audience: audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(expiresInHours),
                 signingCredentials: creds

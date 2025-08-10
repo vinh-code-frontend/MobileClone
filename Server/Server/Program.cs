@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Server.Constants;
 using Server.Data;
 using Server.Interfaces;
 using Server.Services;
@@ -41,8 +42,26 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"]!))
     };
+    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+    {
+        OnChallenge = context =>
+        {
+            context.HandleResponse();
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+            var result = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                error = "Token is not good"
+            });
+            return context.Response.WriteAsync(result);
+        }
+    };
 });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireGlobalAdmin", policy =>
+        policy.RequireRole(AdminRoles.GlobalAdmin));
+});
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
@@ -64,6 +83,23 @@ if (app.Environment.IsDevelopment())
 //HTTP -> HTTPS
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontendClients");
+
+app.Use(async (context, next) =>
+{
+    await next();
+
+    if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
+    {
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
+        {
+            error = "You don't have permission"
+        }));
+    }
+});
+
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

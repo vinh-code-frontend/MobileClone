@@ -63,6 +63,10 @@ namespace Server.Services
             {
                 return ServiceResult<AdminLoginResponseDTO>.Fail("Username and Password are required", HttpStatusCode.BadRequest);
             }
+            if (string.IsNullOrWhiteSpace(dto.Origin))
+            {
+                return ServiceResult<AdminLoginResponseDTO>.Fail("Can't recognize", HttpStatusCode.BadRequest);
+            }
 
             string normalizedUsername = dto.Username.ToLower().Trim();
 
@@ -87,9 +91,10 @@ namespace Server.Services
                 Id = admin.Id,
                 Username = admin.Username,
                 Name = admin.Name,
+                Role = admin.Role,
                 Status = admin.Status,
                 LoginProvider = admin.LoginProvider,
-                AccessToken = _jwtService.GenerateAdminUserToken(admin),
+                AccessToken = _jwtService.GenerateAdminUserToken(admin, dto.Origin),
                 ExpiresInHours = double.Parse(_configuration["Jwt:ExpiresInHours"]!)
             };
 

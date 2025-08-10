@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Server.Constants;
 using Server.Data;
 using Server.DTOs;
 using Server.Interfaces;
@@ -45,10 +47,11 @@ namespace Server.Controllers
             return StatusCode((int)result.StatusCode, result.Data);
         }
         // GET: api/<AdminController>
+        [Authorize(Roles = AdminRoles.GlobalAdmin)]
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok("You are Global Admin!");
         }
         // GET api/<AdminController>/5
         [HttpGet("{id}")]

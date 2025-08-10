@@ -41,7 +41,7 @@ const mainRoutes = {
   getPaths(isGlobalAdmin = false) {
     const paths: RouteConfig[] = []
     Object.entries(this).forEach(([key, value]) => {
-      if (typeof value === 'object' && key !== 'home') {
+      if (typeof value === 'object') {
         if (isGlobalAdmin || key !== 'admin') {
           paths.push(value as RouteConfig)
         }
@@ -51,7 +51,7 @@ const mainRoutes = {
   },
   getSidebarPaths(isGlobalAdmin = false) {
     const paths = this.getPaths(isGlobalAdmin)
-    return paths.filter((item) => item.sidebarLink)
+    return paths.filter((item) => item.sidebarLink && item.key !== 'home')
   },
 }
 

@@ -8,5 +8,7 @@ namespace Server.DTOs
         public required string Username { get; set; }
         [Required]
         public required string Password { get; set; }
+        [Required]
+        public required string Origin { get; set; }
     }
 }
