@@ -1,3 +1,5 @@
+import { LoginUser } from '@/features/auth/core/types'
+import { LocalStorage } from '@/shared/utils'
 import axios from 'axios'
 
 const api = axios.create({
@@ -6,6 +8,11 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    const localStore = new LocalStorage()
+    const loginUser = localStore.get<LoginUser>('loginUser')
+    if (loginUser?.accessToken) {
+      config.headers.Authorization = `Bearer ${loginUser.accessToken}`
+    }
     return config
   },
   (error) => {

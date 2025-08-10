@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux'
 import { authActions } from '@/features/auth/core/authSlice'
 
 const MainLayout = () => {
-  const auth = useAppSelector('auth')
+  const loginUser = useAppSelector((state) => state.auth.loginUser)
   const dispatch = useDispatch()
   const theme = useTheme()
 
@@ -20,12 +20,12 @@ const MainLayout = () => {
       <Box sx={{ flexGrow: '1' }}>
         <Stack flexDirection="row" sx={{ height: '48px', justifyContent: 'space-between', p: 1, alignItems: 'center', boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.12)' }}>
           <Box>Main layout</Box>
-          {auth.loginUser ? (
+          {loginUser ? (
             <Stack direction="row" alignItems="center" gap={1}>
               <Typography sx={{ cursor: 'pointer' }} onClick={() => dispatch(authActions.logout())}>
                 Logout
               </Typography>
-              <Typography>{auth.loginUser?.name}</Typography>
+              <Typography>{loginUser?.name}</Typography>
               <Avatar sx={{ bgcolor: theme.palette.primary.light }}>
                 <Person />
               </Avatar>

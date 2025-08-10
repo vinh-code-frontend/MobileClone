@@ -18,7 +18,6 @@ const authRoutes = {
 
   getPaths() {
     const values = Object.values(this).filter((value) => typeof value === 'object') as RouteConfig[]
-    console.log(values)
     return values
   },
 }

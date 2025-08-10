@@ -10,11 +10,13 @@ import RegisterPage from '@/features/auth/pages/RegisterPage'
 import { useAppSelector } from '@/app/store'
 import mainRoutes from './main.routes'
 import authRoutes from './auth.routes'
+import { useMemo } from 'react'
+import { ADMIN_ROLE } from '@/features/auth/core/constants'
 
 const RequireAuth = () => {
-  const auth = useAppSelector('auth')
+  const loginUser = useAppSelector((state) => state.auth.loginUser)
 
-  if (!auth.loginUser) {
+  if (!loginUser) {
     return <Navigate to="/login" replace />
   }
 
@@ -22,19 +24,24 @@ const RequireAuth = () => {
 }
 
 const RequireNoAuth = () => {
-  const auth = useAppSelector('auth')
+  const loginUser = useAppSelector((state) => state.auth.loginUser)
 
-  if (auth.loginUser) {
+  if (loginUser) {
     return <Navigate to="/" replace />
   }
 
   return <Outlet />
 }
 
-const mainPaths = mainRoutes.getPaths()
-const authPaths = authRoutes.getPaths()
-
 const AppRoutes = () => {
+  const { loginUser } = useAppSelector((state) => state.auth)
+
+  const mainPaths = useMemo(() => {
+    const isGlobalAdmin = loginUser?.role === ADMIN_ROLE.GlobalAdmin
+    return mainRoutes.getPaths(isGlobalAdmin)
+  }, [loginUser])
+
+  const authPaths = useMemo(() => authRoutes.getPaths(), [])
   return (
     <Routes>
       <Route element={<RequireNoAuth />}>

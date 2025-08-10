@@ -12,3 +12,8 @@ export const ADMIN_STATUS = {
   Banned: 'Banned',
   Deleted: 'Deleted',
 } as const
+
+export const ADMIN_ROLE = {
+  GlobalAdmin: 'GlobalAdmin',
+  Admin: 'Admin',
+} as const

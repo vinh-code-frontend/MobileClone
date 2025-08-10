@@ -27,7 +27,7 @@ const mainRoutes = {
   admin: {
     key: 'admin-management',
     path: '/admin-management',
-    title: 'admin Management',
+    title: 'Admin Management',
     component: <AdminManagement />,
     sidebarLink: true,
   },
@@ -38,13 +38,19 @@ const mainRoutes = {
     component: <UsersManagement />,
     sidebarLink: true,
   },
-  getPaths() {
-    const values = Object.values(this).filter((value) => typeof value === 'object') as RouteConfig[]
-    console.log(values)
-    return values
+  getPaths(isGlobalAdmin = false) {
+    const paths: RouteConfig[] = []
+    Object.entries(this).forEach(([key, value]) => {
+      if (typeof value === 'object' && key !== 'home') {
+        if (isGlobalAdmin || key !== 'admin') {
+          paths.push(value as RouteConfig)
+        }
+      }
+    })
+    return paths
   },
-  getSidebarPaths() {
-    const paths = this.getPaths()
+  getSidebarPaths(isGlobalAdmin = false) {
+    const paths = this.getPaths(isGlobalAdmin)
     return paths.filter((item) => item.sidebarLink)
   },
 }
