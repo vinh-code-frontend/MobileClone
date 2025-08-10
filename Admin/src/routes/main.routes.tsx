@@ -1,8 +1,9 @@
+import { Navigate } from 'react-router-dom'
+import { RouteConfig } from './types'
 import BrandManagement from '@/features/brand/pages/BrandManagement'
 import Dashboard from '@/features/dashboard/pages/Dashboard'
-import { RouteConfig } from './types'
-import { Navigate } from 'react-router-dom'
 import UsersManagement from '@/features/users/pages/UsersManagement'
+import AdminManagement from '@/features/users/pages/AdminManagement'
 
 const mainRoutes = {
   home: {
@@ -21,6 +22,13 @@ const mainRoutes = {
     path: '/brand-management',
     title: 'Brand Management',
     component: <BrandManagement />,
+    sidebarLink: true,
+  },
+  admin: {
+    key: 'admin-management',
+    path: '/admin-management',
+    title: 'admin Management',
+    component: <AdminManagement />,
     sidebarLink: true,
   },
   users: {
