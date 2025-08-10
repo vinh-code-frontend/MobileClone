@@ -5,13 +5,13 @@ import RegisterPage from '@/features/auth/pages/RegisterPage'
 const authRoutes = {
   login: {
     key: 'login',
-    path: '/auth/login',
+    path: '/login',
     title: 'Login',
     component: <LoginPage />,
   },
   register: {
     key: 'register',
-    path: '/auth/register',
+    path: '/register',
     title: 'register',
     component: <RegisterPage />,
   },
