@@ -3,7 +3,7 @@ import { RouteConfig } from './types'
 import BrandManagement from '@/features/brand/pages/BrandManagement'
 import Dashboard from '@/features/dashboard/pages/Dashboard'
 import UsersManagement from '@/features/users/pages/UsersManagement'
-import AdminManagement from '@/features/users/pages/AdminManagement'
+import AdminManagement from '@/features/admin/pages/AdminManagement'
 
 const mainRoutes = {
   home: {
