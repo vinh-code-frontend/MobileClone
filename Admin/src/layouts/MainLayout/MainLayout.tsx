@@ -1,10 +1,17 @@
 import { Outlet, Link } from 'react-router-dom'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Avatar, useTheme, Typography } from '@mui/material'
 import Sidebar from './components/Sidebar'
-
 import { OverlayScrollbarsComponent as Scrollbar } from 'overlayscrollbars-react'
+import { useAppSelector } from '@/app/store'
+import Person from '@mui/icons-material/Person'
+import { useDispatch } from 'react-redux'
+import { authActions } from '@/features/auth/core/authSlice'
 
 const MainLayout = () => {
+  const auth = useAppSelector('auth')
+  const dispatch = useDispatch()
+  const theme = useTheme()
+
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
       <Box sx={{ bgcolor: 'white', width: 240 }}>
@@ -13,10 +20,22 @@ const MainLayout = () => {
       <Box sx={{ flexGrow: '1' }}>
         <Stack flexDirection="row" sx={{ height: '48px', justifyContent: 'space-between', p: 1, alignItems: 'center', boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.12)' }}>
           <Box>Main layout</Box>
-          <Box>
-            <Link to="/auth/login">Login</Link>
-            <Link to="/auth/register">Register</Link>
-          </Box>
+          {auth.loginUser ? (
+            <Stack direction="row" alignItems="center" gap={1}>
+              <Typography sx={{ cursor: 'pointer' }} onClick={() => dispatch(authActions.logout())}>
+                Logout
+              </Typography>
+              <Typography>{auth.loginUser?.name}</Typography>
+              <Avatar sx={{ bgcolor: theme.palette.primary.light }}>
+                <Person />
+              </Avatar>
+            </Stack>
+          ) : (
+            <Box>
+              <Link to="/auth/login">Login</Link>
+              <Link to="/auth/register">Register</Link>
+            </Box>
+          )}
         </Stack>
         <Scrollbar style={{ maxHeight: 'calc(100dvh - 48px)' }} options={{ scrollbars: { autoHide: 'leave' } }}>
           <Box p={3}>

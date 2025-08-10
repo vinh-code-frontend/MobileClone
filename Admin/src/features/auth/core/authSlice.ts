@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { LoginResponse } from './types'
+import { LoginResponse, LoginUser } from './types'
 import { LocalStorage } from '@/shared/utils'
+import dayjs from 'dayjs'
 
 export type AuthState = {
-  loginUser?: LoginResponse
+  loginUser?: LoginUser
 }
 
 const localStore = new LocalStorage()
 
 const initialState: AuthState = {
-  loginUser: localStore.get<LoginResponse>('loginUser') ?? undefined,
+  loginUser: localStore.get<LoginUser>('loginUser') ?? undefined,
 }
 
 export const authSlice = createSlice({
@@ -17,12 +18,14 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, { payload }: PayloadAction<LoginResponse>) => {
-      state.loginUser = payload
-      localStore.set('loginUser', payload)
+      const expiresAt = dayjs().add(payload.expiresInHours, 'hour').valueOf() - 1
+      state.loginUser = { ...payload, expiresAt: expiresAt }
+      localStore.set('loginUser', state.loginUser)
     },
     logout(state) {
       state.loginUser = undefined
       localStore.remove('loginUser')
+      window.location.reload()
     },
   },
 })

@@ -12,3 +12,7 @@ export type LoginResponse = {
   accessToken: string
   expiresInHours: number
 }
+
+export type LoginUser = LoginResponse & {
+  expiresAt: number
+}

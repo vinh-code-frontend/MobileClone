@@ -8,3 +8,11 @@ body {
   box-sizing: border-box;
   line-height: 1;
 }
+
+.os-scrollbar-handle {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.os-scrollbar-handle:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
