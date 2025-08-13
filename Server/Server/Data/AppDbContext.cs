@@ -8,5 +8,6 @@ namespace Server.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<AdminUser> AdminUsers { get; set; } = default!;
+        public DbSet<Brand> Brands { get; set; } = default!;
     }
 }

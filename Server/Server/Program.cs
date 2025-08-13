@@ -65,6 +65,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>

@@ -12,7 +12,9 @@ namespace Server.Models
         public string? LoginProvider { get; set; } = AdminLoginProvider.Local;
         public string? ProviderUserId { get; set; }
         public string Role { get; set; } = AdminRoles.Admin;
-        public byte[]? PhotoUrl { get; set; }
+        public byte[]? PhotoData { get; set; }  // Image data in byte array format
+        public string? PhotoFileName { get; set; }
+        public string? PhotoMimeType { get; set; }
         public bool IsPasswordUpdated { get; set; } = false;
         public bool IsAcceptedByGlobalAdmin { get; set; }
         public DateTime? AcceptedAt { get; set; }

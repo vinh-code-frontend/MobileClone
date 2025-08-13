@@ -15,18 +15,15 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.6.7" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Constants\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Data\" />
     <Folder Include="DTOs\" />
     <Folder Include="Helper\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
 
