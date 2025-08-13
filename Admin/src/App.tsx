@@ -18,7 +18,12 @@ const App = () => {
           width: '100%',
         }}
       >
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_relativeSplatPath: true,
+            v7_startTransition: true
+          }}
+        >
           <AppRouter />
         </BrowserRouter>
       </Box>
