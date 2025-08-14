@@ -14,10 +14,13 @@ const MainLayout = () => {
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
-      <Box sx={{ bgcolor: 'white', width: 240 }}>
+      <Box sx={{ bgcolor: 'white', width: 240, flexShrink: 0 }}>
         <Sidebar />
       </Box>
-      <Box sx={{ flexGrow: '1' }}>
+      <Box sx={{
+        flexGrow: '1', width: "100%",
+        overflowX: "auto"
+      }}>
         <Stack flexDirection="row" sx={{ height: '48px', justifyContent: 'space-between', p: 1, alignItems: 'center', boxShadow: '0 1px 0 0 rgba(0, 0, 0, 0.12)' }}>
           <Box>Main layout</Box>
           {loginUser ? (
@@ -37,8 +40,13 @@ const MainLayout = () => {
             </Box>
           )}
         </Stack>
-        <Scrollbar style={{ maxHeight: 'calc(100dvh - 48px)' }} options={{ scrollbars: { autoHide: 'leave' } }}>
-          <Box p={3}>
+        <Scrollbar style={{ maxHeight: 'calc(100dvh - 48px)' }} options={{
+          scrollbars: { autoHide: 'leave' }, overflow: {
+            x: 'hidden',
+            y: 'scroll',
+          },
+        }} >
+          <Box p={3} sx={{ width: '100%', overflowX: 'auto' }}>
             <Outlet />
           </Box>
         </Scrollbar>

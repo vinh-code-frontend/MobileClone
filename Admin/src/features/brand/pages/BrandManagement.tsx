@@ -26,8 +26,9 @@ const rows = [
 
 const BrandManagement = () => {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+
+    <TableContainer component={Paper} >
+      <Table aria-label="simple table" sx={{ overflowX: 'auto' }}>
         <TableHead>
           <TableRow>
             <TableCell>Dessert (100g serving)</TableCell>
@@ -41,6 +42,7 @@ const BrandManagement = () => {
           {rows.map((row) => (
             <TableRow
               key={row.name}
+              hover
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -55,6 +57,7 @@ const BrandManagement = () => {
         </TableBody>
       </Table>
     </TableContainer>
+
   );
 }
 
