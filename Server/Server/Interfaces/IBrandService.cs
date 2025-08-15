@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.DTOs.BrandDTOs;
 using Server.Utilities;
 
 namespace Server.Interfaces
@@ -12,5 +13,6 @@ namespace Server.Interfaces
             [FromQuery] int? top,
             [FromQuery] int? skip
         );
+        Task<ServiceResult<bool>> AddBrandAsync(BrandAddRequestDTO brandAddRequestDTO);
     }
 }

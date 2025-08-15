@@ -10,10 +10,11 @@
         public string? WebsiteUrl { get; set; }
         public string? Country { get; set; }
         public bool IsActive { get; set; } = true;
-        public byte[]? LogoData { get; set; }
-        public string? LogoFileName { get; set; }
-        public string? LogoMimeType { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public byte[]? LogoData { get; set; } //later
+        public string? LogoFileName { get; set; } //later
+        public string? LogoMimeType { get; set; } //later
     }
 }

@@ -31,27 +31,30 @@ const BrandManagement = () => {
       <Table aria-label="simple table" sx={{ overflowX: 'auto' }}>
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align='left'>No.</TableCell>
+            <TableCell align='left'>Brand name</TableCell>
+            <TableCell align='left'>Brand's Website</TableCell>
+            <TableCell align='left'>Description</TableCell>
+            <TableCell align='left'>Status</TableCell>
+            <TableCell align="left">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow
               key={row.name}
               hover
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell>{index + 1}</TableCell>
+              <TableCell component="th" scope="row" align='left'>
                 {row.name}
+                <img src="https://vinh-code-frontend.github.io/brand-logo/apple.svg" />
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="left">{row.calories}</TableCell>
+              <TableCell align="left">{row.fat}</TableCell>
+              <TableCell align="left">{row.carbs}</TableCell>
+              <TableCell align="left">act</TableCell>
             </TableRow>
           ))}
         </TableBody>
